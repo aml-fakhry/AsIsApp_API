@@ -1,0 +1,71 @@
+import express from 'express';
+import cors from 'cors';
+import { config } from '../config/development';
+import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
+/**
+ * Sets the static files & security for an express server.
+ * @param app The express application to set its express server's request options.
+ */
+function setStaticsOptions(app) {
+  /**
+   * Allow trust proxy.
+   * Only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
+   */
+  app.enable('trust proxy');
+}
+
+/**
+ * Sets the http-request options for an express server.
+ * @param app The express application to set its express server's request options.
+ */
+function setRequestOptions(app) {
+  /**
+   * Enable CORS to allow any javascript client to consume your server's api.
+   */
+  app.use(cors());
+
+  /**
+   * Allow parse incoming requests as JSON payloads.
+   * The limit of request body size my be set using this option { limit: '5mb' }, default is 100kb.
+   */
+  app.use(express.json());
+
+  /**
+   * Allow parse incoming urlencoded requests bodies.
+   * The limit of request body size my be set using this option { limit: '5mb' }, default is 100kb.
+   */
+  app.use(express.urlencoded({ extended: true }));
+}
+
+function registerRoutes(app) {
+  /**
+   * The base-route prefix for the api.
+   *
+   * e.g. `/api/organizations`, `/api/products`.
+   */
+  const apiBaseRoute = '/api/';
+  app.use(apiBaseRoute + authRelativeRoute, authRouter);
+}
+
+export function setupServer(app) {
+  /**
+   * The order matters.
+   * 1. Setup statics options.
+   * 2. Set request options.
+   * 3. Register routes.
+   * 4. Add the error-handler middleware at the very end of pipeline.
+   */
+
+  setStaticsOptions(app);
+  setRequestOptions(app);
+  registerRoutes(app);
+}
+/**
+ * Starts an express server.
+ * @param app The express application to start its express server.
+ */
+export function startServer(app) {
+  app.listen(config.PORT, () => {
+    console.log(`Server is running at port ${config.PORT}`);
+  });
+}

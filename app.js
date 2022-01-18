@@ -1,8 +1,8 @@
-import express, { json } from 'express';
+import express from 'express';
 import { connect, connection } from 'mongoose';
 const app = express();
 import { config } from './config/development';
-app.use(json());
+import * as server from './server/server';
 
 connect(config.dbUrl, {
   useNewUrlParser: true,
@@ -14,6 +14,5 @@ db.once('open', function () {
   console.log('Connected successfully');
 });
 
-app.listen(config.PORT, () => {
-  console.log(`Server is running at port ${config.PORT}`);
-});
+server.setupServer(app);
+server.startServer(app);
