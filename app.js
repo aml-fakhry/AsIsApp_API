@@ -1,14 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
+import express, { json } from 'express';
+import { connect, connection } from 'mongoose';
 const app = express();
-const config = require('./config/development');
-app.use(express.json());
+import { config } from './config/development';
+app.use(json());
 
-mongoose.connect(config.dbUrl, {
+connect(config.dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-const db = mongoose.connection;
+const db = connection;
 db.on('error', console.error.bind(console, 'connection error: '));
 db.once('open', function () {
   console.log('Connected successfully');
