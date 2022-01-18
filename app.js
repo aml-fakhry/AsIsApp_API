@@ -4,6 +4,7 @@ const app = express();
 import { config } from './config/development';
 import * as server from './server/server';
 
+/* Ensure that we don't start the server unless database is connected. */
 connect(config.dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -14,5 +15,10 @@ db.once('open', function () {
   console.log('Connected successfully');
 });
 
+/**
+ * Bootstrap the app in the following order.
+ * 1. Setup the express server.
+ * 2. Start express server after all are done.
+ */
 server.setupServer(app);
 server.startServer(app);

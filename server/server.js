@@ -28,13 +28,13 @@ function setRequestOptions(app) {
    * Allow parse incoming requests as JSON payloads.
    * The limit of request body size my be set using this option { limit: '5mb' }, default is 100kb.
    */
-  app.use(express.json());
+  app.use(express.json({ limit: '5mb' }));
 
   /**
    * Allow parse incoming urlencoded requests bodies.
    * The limit of request body size my be set using this option { limit: '5mb' }, default is 100kb.
    */
-  app.use(express.urlencoded({ extended: true }));
+  app.use(express.urlencoded({ limit: '5mb', extended: true }));
 }
 
 function registerRoutes(app) {
@@ -55,11 +55,11 @@ export function setupServer(app) {
    * 3. Register routes.
    * 4. Add the error-handler middleware at the very end of pipeline.
    */
-
   setStaticsOptions(app);
   setRequestOptions(app);
   registerRoutes(app);
 }
+
 /**
  * Starts an express server.
  * @param app The express application to start its express server.

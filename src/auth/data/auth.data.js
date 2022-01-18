@@ -7,5 +7,7 @@ export default class AuthDataAccess {
    * @param data The data-model to create the new asset.
    * @param userId the id of the logged user
    */
-  static async createUser(req, res) {}
+  static async createUser(data) {
+    return data;
+  }
 }

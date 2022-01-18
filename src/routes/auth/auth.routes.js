@@ -14,6 +14,12 @@ export const authRouter = Router();
 export const authRelativeRoute = 'auth/user';
 
 /* Create new user route. */
-authRouter.post('/signup', async (ret, res, next) => {
-  result = await AuthDataAccess.createUser(req.body, req.user.userId);
+authRouter.post('/signup', async (req, res, next) => {
+  try {
+    let result = await AuthDataAccess.createUser(req.body);
+    res.send(result);
+    console.log(req.body);
+  } catch (error) {
+    console.log(error);
+  }
 });
