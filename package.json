@@ -1,0 +1,23 @@
+{
+  "name": "asisapp_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aml-fakhry/AsIsApp_SPA.git"
+  },
+  "author": "aml fakhri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/aml-fakhry/AsIsApp_SPA/issues"
+  },
+  "homepage": "https://github.com/aml-fakhry/AsIsApp_SPA#readme",
+  "dependencies": {
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7"
+  }
+}
