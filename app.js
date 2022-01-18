@@ -1,11 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const PORT = 3000 || env.PORT;
 const app = express();
-
+const config = require('./config/development');
 app.use(express.json());
 
-mongoose.connect('mongodb+srv://aml_fakhry:aml1234567890@asis.wvifm.mongodb.net/test', {
+mongoose.connect(config.dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -15,6 +14,6 @@ db.once('open', function () {
   console.log('Connected successfully');
 });
 
-app.listen(3000, () => {
-  console.log('Server is running at port 3000');
+app.listen(config.PORT, () => {
+  console.log(`Server is running at port ${config.PORT}`);
 });
