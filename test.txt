@@ -1,0 +1,1 @@
+// mongodb+srv://aml_fakhry:aml1234567890@asis.wvifm.mongodb.net/test?authSource=admin&replicaSet=atlas-wdlxf0-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true
