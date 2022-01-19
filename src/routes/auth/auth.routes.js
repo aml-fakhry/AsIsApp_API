@@ -21,6 +21,7 @@ authRouter.post('/signup', async (req, res, next) => {
     // let result = await AuthDataAccess.createUser();
     res.send(req.body);
     console.log(req.body);
+
     validation(userSchema, req.body);
   } catch (error) {
     console.log(error);
