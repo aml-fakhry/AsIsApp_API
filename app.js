@@ -3,8 +3,10 @@ import { connect, connection } from 'mongoose';
 import Ajv from 'ajv';
 import { config } from './config/development';
 import * as server from './server/server';
+import addFormats from 'ajv-formats';
 
-export const ajv = new Ajv({ allErrors: true });
+export const ajv = addFormats(new Ajv({ allErrors: true, validateFormats: true }));
+
 const app = express();
 
 /* Ensure that we don't start the server unless database is connected. */

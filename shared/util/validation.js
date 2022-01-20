@@ -1,7 +1,11 @@
 import { ajv } from '../../app';
-
+/**
+ * set validation function to validate data body.
+ * @param schema needed to compile
+ * @returns
+ */
 export function validation(schema) {
-  return (req, res, next) => {
+  return async (req, res, next) => {
     try {
       const validate = ajv.compile(schema);
       const valid = validate(req.body);
