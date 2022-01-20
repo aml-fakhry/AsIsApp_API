@@ -31,7 +31,6 @@ export function NotFound(res, body) {
  */
 export function unAuthenticated(res) {
   const body = {
-    code: '',
     title: 'User is not authenticated',
     detail: 'No valid access token provided',
   };
@@ -44,7 +43,6 @@ export function unAuthenticated(res) {
  */
 export function Forbidden(res) {
   const body = {
-    code: '',
     title: 'User is not authenticated',
     detail: 'No valid access token provided',
   };
