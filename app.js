@@ -1,8 +1,11 @@
 import express from 'express';
 import { connect, connection } from 'mongoose';
-const app = express();
+import Ajv from 'ajv';
 import { config } from './config/development';
 import * as server from './server/server';
+
+export const ajv = new Ajv({ allErrors: true });
+const app = express();
 
 /* Ensure that we don't start the server unless database is connected. */
 connect(config.dbUrl, {
