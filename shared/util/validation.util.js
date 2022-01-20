@@ -16,7 +16,7 @@ export function validation(schema) {
       } else {
         console.log('User data is INVALID!');
         validate.errors.forEach((m) => {
-          console.log(m.message);
+          console.log(m.params);
         });
         res.status(404).send(validate.errors);
       }
