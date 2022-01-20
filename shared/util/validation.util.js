@@ -8,13 +8,16 @@ export function validation(schema) {
   return async (req, res, next) => {
     try {
       const validate = ajv.compile(schema);
+
       const valid = validate(req.body);
       if (valid) {
         console.log('User data is valid');
         next();
       } else {
         console.log('User data is INVALID!');
-        console.log(validate.errors);
+        validate.errors.forEach((m) => {
+          console.log(m.message);
+        });
         res.status(404).send(validate.errors);
       }
     } catch (error) {

@@ -5,9 +5,16 @@ import { config } from './config/development';
 import * as server from './server/server';
 import addFormats from 'ajv-formats';
 
+/**
+ * Set AJV format and error.
+ */
 export const ajv = addFormats(new Ajv({ allErrors: true, validateFormats: true }));
+require('ajv-errors')(ajv /*, {singleError: true} */);
 
-const app = express();
+/**
+ * Creates an Express application. The express() function is a top-level function exported by the express module.
+ */
+export const app = express();
 
 /* Ensure that we don't start the server unless database is connected. */
 connect(config.dbUrl, {
