@@ -15,8 +15,8 @@ export const userSchema = {
     email: {
       type: 'string',
       format: 'email',
-      maxLength: 50,
-      minimum: 1,
+      maxLength: 100,
+      minimum: 5,
       errorMessage: {
         // In here must be errorMessage not errorMessages
         type: 'password must be an string', // Your Custom Error Message
