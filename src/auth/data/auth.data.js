@@ -23,6 +23,7 @@ export default class AuthDataAccess {
       return (result = user);
     } catch (error) {
       console.log(error);
+      Promise.reject(error);
     }
   }
 }

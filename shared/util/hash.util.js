@@ -1,5 +1,4 @@
 import bcrypt from 'bcrypt';
-import res from 'express/lib/response';
 import { config } from '../../config/development';
 
 /**

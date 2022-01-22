@@ -16,10 +16,7 @@ export function validation(schema) {
         next();
       } else {
         console.log('User data is INVALID!');
-        validate.errors.forEach((m) => {
-          console.log(m.message);
-        });
-        res.status(404).send(validate.errors);
+        res.status(400).send(validate.errors.map((e) => ({ param: e.instancePath, message: e.message })));
       }
     } catch (error) {
       console.log(error);

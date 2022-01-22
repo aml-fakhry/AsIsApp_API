@@ -1,6 +1,5 @@
 import express from 'express';
 import Ajv from 'ajv';
-import { config } from './config/development';
 import * as server from './server/server';
 import addFormats from 'ajv-formats';
 
@@ -18,10 +17,12 @@ export const app = express();
 
 /**
  * Bootstrap the app in the following order.
- * 1. Setup the express server.
- * 2. Start express server after all are done.
- * 3. Connect to online DataBase.
+ * 1. Connect to online DataBase.
+ * 2. Setup the express server.
+ * 3. Start express server after all are done.
+ *
  */
-server.setupServer(app);
-server.startServer(app);
-server.connectDataBase();
+server.connectDataBase().then(() => {
+  server.setupServer(app);
+  server.startServer(app);
+});
