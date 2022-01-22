@@ -7,8 +7,7 @@ import userModel from '../model/user.model';
 export default class AuthDataAccess {
   /**
    * Creates a new user based on the provided data-model.
-   * @param data The data-model to create the new asset.
-   * @param userId the id of the logged user
+   * @param data The data-model to create the new user.
    */
   static async createUser(data) {
     let result;

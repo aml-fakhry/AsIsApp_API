@@ -5,7 +5,7 @@ import { userSchema } from '../../auth/validators/user.validator';
 import AuthDataAccess from '../../auth/data/auth.data';
 
 /**
- * The assets router that holds all module routes.
+ * The auth router that holds all module routes.
  */
 export const authRouter = Router();
 
