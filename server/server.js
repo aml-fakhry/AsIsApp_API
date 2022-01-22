@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import { connect, connection } from 'mongoose';
 import { config } from '../config/development';
 import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
 /**
@@ -67,5 +68,21 @@ export function setupServer(app) {
 export function startServer(app) {
   app.listen(config.PORT, () => {
     console.log(`Server is running at port ${config.PORT}`);
+  });
+}
+
+/**
+ * Connect to online Database.
+ */
+export function connectDataBase() {
+  /* Ensure that we don't start the server unless database is connected. */
+  connect(config.dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  const db = connection;
+  db.on('error', console.error.bind(console, 'connection error: '));
+  db.once('open', function () {
+    console.log('Connected successfully');
   });
 }
