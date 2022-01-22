@@ -20,6 +20,7 @@ export class Hash {
    * @param plainData The plain data to be compared against the hashed version.
    * @param hashedData The hashed version to be compared against the plain data.
    * @example Hash.compare('my plain string', 'my hashed string');
+   *
    */
   static async compare(plainData, hashedData) {
     return bcrypt.compare(plainData, hashedData);
