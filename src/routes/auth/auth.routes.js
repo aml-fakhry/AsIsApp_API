@@ -1,7 +1,4 @@
 import { Router, express } from 'express';
-import { BadRequest, OK } from '../../../shared/util/http-responses.util';
-import { validation } from '../../../shared/util/validation.util';
-import { userSchema } from '../../auth/validators/user.validator';
 import AuthDataAccess from '../../auth/data/auth.data';
 
 /**
@@ -17,14 +14,11 @@ export const authRouter = Router();
 export const authRelativeRoute = 'auth/user';
 
 /* Create new user route. */
-authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
+authRouter.post('/signup', async (req, res, next) => {
   try {
-    const result = await AuthDataAccess.createUser(req.body);
-    if (result) {
-      OK(res, result);
-    } else {
-      BadRequest(res, result);
-    }
+    let result = await AuthDataAccess.createUser(req.body);
+    res.send(result);
+    console.log(req.body);
   } catch (error) {
     console.log(error);
   }
