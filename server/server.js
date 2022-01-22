@@ -1,9 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { connect, connection } from 'mongoose';
 import { config } from '../config/development';
 import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
-import util from 'util';
 /**
  * Sets the static files & security for an express server.
  * @param app The express application to set its express server's request options.
@@ -69,25 +67,5 @@ export function setupServer(app) {
 export function startServer(app) {
   app.listen(config.PORT, () => {
     console.log(`Server is running at port ${config.PORT}`);
-  });
-}
-
-/**
- * Connect to online Database.
- */
-export async function connectDataBase(setupServerCB) {
-  /* Ensure that we don't start the server unless database is connected. */
-  const db = connection;
-  db.on('error', console.error.bind(console, 'connection error: '));
-  db.once('open', function () {
-    console.log('Connected successfully');
-  });
-  /**
-   * return promise instead of using call back.
-   */
-  const connectPromised = util.promisify(connect);
-  return connectPromised(config.dbUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
   });
 }
