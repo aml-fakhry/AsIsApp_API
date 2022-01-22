@@ -4,4 +4,4 @@ const userSchema = Schema({
   email: { type: String },
   password: { type: String },
 });
-module.export = model('User', userSchema);
+export default model('User', userSchema);
