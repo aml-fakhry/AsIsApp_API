@@ -32,6 +32,7 @@ export const userSchema = {
         type: 'password must be an string', // Your Custom Error Message
       },
     },
+    userRoleId: { type: 'string' },
   },
   required: ['name', 'email', 'password'],
   additionalProperties: false,

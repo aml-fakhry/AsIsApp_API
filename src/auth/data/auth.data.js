@@ -3,6 +3,7 @@ import userModel from '../model/user.model';
 import { Result } from '../../../shared/models/data-result.model';
 import { AppErrorCode } from '../../../shared/models/app-error-code.model';
 import { AppError } from '../../../shared/models/app-error.model';
+import userRoleModel from '../model/user-role.model';
 
 /**
  * The auth data-access service that includes the functionalities to create and read a user .
@@ -15,10 +16,14 @@ export default class AuthDataAccess {
   static async createUser(data) {
     const result = Result;
     try {
-      const [nameExist, emailExist] = await Promise.all([
+      /* Make sure that userRole is exists in the database. */
+      const [nameExist, emailExist, userRole] = await Promise.all([
         userModel.findOne({ name: data.name }),
         userModel.findOne({ email: data.email }),
+        userRoleModel.findById(data.userRoleId),
       ]);
+
+      console.log({ userRole });
 
       /** Check if code is already exists in database. */
       if (nameExist) {
@@ -41,6 +46,16 @@ export default class AuthDataAccess {
           },
         ];
         return result;
+      } else if (!userRole) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.RelatedEntityNotFound,
+            source: 'userRoleId',
+            title: AppError.RelatedEntityNotFound,
+            detail: `User role not exist`,
+          },
+        ];
+        return result;
       }
 
       /**
@@ -48,16 +63,16 @@ export default class AuthDataAccess {
        * Set user object.
        */
       const hashPassword = await Hash.hash(data.password);
-      const user = {
+
+      /* create employee.reward and deduction */
+      const user = await userModel.create({
         name: data.name,
         email: data.email,
         password: hashPassword,
-      };
+        userRoleId: data.userRoleId,
+      });
 
-      /* create employee.reward and deduction */
-      await userModel.create(user);
-
-      return (result.data = user);
+      return (result.data = await userModel.findById(user._id).populate('userRoleId'));
     } catch (error) {
       console.log(error);
       result.error = error;

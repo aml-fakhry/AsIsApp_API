@@ -12,7 +12,7 @@ export class UserRolesDataAccess {
     const result = Result;
 
     try {
-      const roles = await userRoleModel.find({ raw: true });
+      const roles = await userRoleModel.find().populate('users');
       result.data = roles;
     } catch (error) {
       result.error = error;
