@@ -23,39 +23,34 @@ export default class AuthDataAccess {
         userRoleModel.findById(data.userRoleId),
       ]);
 
-      console.log({ userRole });
-
       /** Check if code is already exists in database. */
       if (nameExist) {
-        result.validationErrors = [
+        return (result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
             source: 'name',
             title: AppError.ValueExists,
             detail: `Name already exists`,
           },
-        ];
-        return result;
+        ]);
       } else if (emailExist) {
-        result.validationErrors = [
+        return (result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
             source: 'email',
             title: AppError.ValueExists,
             detail: `Email already exists`,
           },
-        ];
-        return result;
+        ]);
       } else if (!userRole) {
-        result.validationErrors = [
+        return (result.validationErrors = [
           {
             code: AppErrorCode.RelatedEntityNotFound,
             source: 'userRoleId',
             title: AppError.RelatedEntityNotFound,
             detail: `User role not exist`,
           },
-        ];
-        return result;
+        ]);
       }
 
       /**
@@ -72,9 +67,25 @@ export default class AuthDataAccess {
         userRoleId: data.userRoleId,
       });
 
-      return (result.data = await userModel.findById(user._id).populate('userRoleId'));
+      return (result.data = (await this.findById(user._id)).data);
     } catch (error) {
       console.log(error);
+      result.error = error;
+    }
+    return result;
+  }
+
+  /**
+   * Finds the user with the given id.
+   * @param userId The id in user.
+   */
+  static async findById(userId) {
+    const result = Result;
+
+    try {
+      result.data = await userModel.findById(userId).populate('userRoleId');
+      result.isNotFound = !result.data;
+    } catch (error) {
       result.error = error;
     }
     return result;
