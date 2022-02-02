@@ -24,13 +24,17 @@
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.7",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/cli": "^7.16.8",
     "@babel/core": "^7.16.7",
     "@babel/node": "^7.16.8",
-    "@babel/preset-env": "^7.16.8"
+    "@babel/preset-env": "^7.16.8",
+    "@types/jsonwebtoken": "^8.5.8",
+    "@types/uuid": "^8.3.4"
   }
 }
