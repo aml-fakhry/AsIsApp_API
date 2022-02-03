@@ -1,5 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { counter } from '../../../shared/util/counter.util';
 const userSchema = Schema({
+  order: { type: Number },
   name: { type: String },
   email: { type: String },
   password: { type: String },
@@ -7,4 +9,6 @@ const userSchema = Schema({
   updatedAt: { type: Date },
   userRoleId: { type: Schema.Types.ObjectId, ref: 'UserRole' },
 });
+
+counter('User', userSchema);
 export default model('User', userSchema);
