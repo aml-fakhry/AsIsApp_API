@@ -4,6 +4,8 @@ import { connect, connection } from 'mongoose';
 import { config } from '../config/development';
 import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
 import util from 'util';
+const autoIncrement = require('mongodb-autoincrement');
+
 /**
  * Sets the static files & security for an express server.
  * @param app The express application to set its express server's request options.
