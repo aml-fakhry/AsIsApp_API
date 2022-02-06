@@ -1,24 +1,24 @@
 import { Router } from 'express';
-import { BadRequest, OK } from '../../../../shared/util/http-responses.util';
+import { OK, BadRequest } from '../../../../shared/util/http-responses.util';
 import { validation } from '../../../../shared/util/validation.util';
 import UserDataAccess from '../../../security/users/data/user.data';
 import { UserRolesDataAccess } from '../../../security/users/data/user-role.data';
 import { userSchema } from '../../../security/users/validator/user.validator';
 
 /**
- * The auth router that holds all module routes.
+ * The user router that holds all module routes.
  */
-export const authRouter = Router();
+export const userRouter = Router();
 
 /**
  * The relative route for the auth.
  *
  * No leading or trailing slashes required.
  */
-export const authRelativeRoute = 'auth/user';
+export const userRelativeRoute = 'security/user';
 
 /* Create new user route. */
-authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
+userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
   try {
     const result = await UserDataAccess.createUser(req.body);
     if (result) {
@@ -33,7 +33,7 @@ authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
 });
 
 /* Create new user route. */
-authRouter.get('/user-role', async (req, res, next) => {
+userRouter.get('/user-role', async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
     console.log(result);

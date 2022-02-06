@@ -18,6 +18,7 @@ export class JWT {
     const payload = {
       id,
       userId,
+      role,
     };
 
     return jsonwebtoken.sign(payload, config.JWT_PRIVATE_KEY, options);

@@ -1,4 +1,4 @@
-import { Result } from '../../../shared/models/data-result.model';
+import { Result } from '../../../../shared/models/data-result.model';
 import userRoleModel from '../model/user-role.model';
 
 /**

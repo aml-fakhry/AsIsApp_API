@@ -2,9 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import { connect, connection } from 'mongoose';
 import { config } from '../config/development';
-import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
+import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes';
 import util from 'util';
-const autoIncrement = require('mongodb-autoincrement');
 
 /**
  * Sets the static files & security for an express server.
