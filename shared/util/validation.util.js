@@ -1,8 +1,9 @@
 import { ajv } from '../../app';
+
 /**
  * set validation function to validate data body.
  * @param schema needed to compile
- * @returns
+ * @returns Promise<void>
  */
 export function validation(schema) {
   return async (req, res, next) => {

@@ -1,3 +1,5 @@
+import { AppErrorCode } from '../models/app-error-code.model';
+import { AppError } from '../models/app-error.model';
 /**
  * Returns a succeeded response with 200 status code.
  * @param response The http-response to be modified.
@@ -31,7 +33,8 @@ export function NotFound(res, body) {
  */
 export function unAuthenticated(res) {
   const body = {
-    title: 'User is not authenticated',
+    code: AppErrorCode.UnAuthenticated,
+    title: AppError.UnAuthenticated,
     detail: 'No valid access token provided',
   };
   return res.status(401).send(body);
@@ -43,8 +46,27 @@ export function unAuthenticated(res) {
  */
 export function Forbidden(res) {
   const body = {
-    title: 'User is not authenticated',
+    code: AppErrorCode.Forbidden,
+    title: AppError.Forbidden,
     detail: 'No valid access token provided',
   };
   return res.status(403).send(body);
+}
+
+/**
+ * Returns an internal server error response with 500 status code.
+ * @param response The http-response to be modified.
+ * @param error The error or error-message to be sent within the response' body.
+ */
+export function InternalServerError(response, error) {
+  const body = {
+    errors: [
+      {
+        code: AppErrorCode.InternalServerError,
+        title: AppError.InternalServerError,
+        detail: typeof error === 'string' ? error : error.message,
+      },
+    ],
+  };
+  return response.status(500).send(body);
 }
