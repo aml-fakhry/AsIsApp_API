@@ -31,5 +31,5 @@ export const Result = {
    *
    * This property wont has value if the operation was succeeded.
    */
-  error: Error,
+  error: {},
 };

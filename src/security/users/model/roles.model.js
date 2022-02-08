@@ -5,25 +5,25 @@ export const UserRoles = {
   /**
    * An editor for a company.
    */
-  Editor: 'EDITOR',
+  EDITOR: 'EDITOR',
 
   /**
    * An auditor for a company.
    */
-  Auditor: 'AUDITOR',
+  AUDITOR: 'AUDITOR',
 
   /**
    * A manager for a company.
    */
-  Manager: 'MANAGER',
+  MANAGER: 'MANAGER',
 
   /**
    * A service provider with no company.
    */
-  ServiceProvider: 'SERVICE_PROVIDER',
+  SERVICE_PROVIDER: 'SERVICE_PROVIDER',
 
   /**
    * A system admin with no company.
    */
-  SystemAdmin: 'SYSTEM_ADMIN',
+  SYSTEM_ADMIN: 'SYSTEM_ADMIN',
 };

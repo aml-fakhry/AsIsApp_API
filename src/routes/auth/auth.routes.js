@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import { BadRequest, OK } from '../../../shared/util/http-responses.util';
-import { validation } from '../../../shared/util/validation.util';
-import { userSchema } from '../../auth/validators/user.validator';
-import AuthDataAccess from '../../auth/data/auth.data';
-import { UserRolesDataAccess } from '../../auth/data/user-role.data';
+import { BadRequest, OK } from '../../../../shared/util/http-responses.util';
+import { validation } from '../../../../shared/util/validation.util';
+import UserDataAccess from '../../../security/users/data/user.data';
+import { UserRolesDataAccess } from '../../../security/users/data/user-role.data';
+import { userSchema } from '../../../security/users/validator/user.validator';
 
 /**
  * The auth router that holds all module routes.
@@ -20,7 +20,7 @@ export const authRelativeRoute = 'auth/user';
 /* Create new user route. */
 authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
   try {
-    const result = await AuthDataAccess.createUser(req.body);
+    const result = await UserDataAccess.createUser(req.body);
     if (result) {
       OK(res, result);
     } else {
@@ -36,7 +36,6 @@ authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
 authRouter.get('/user-role', async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
-    console.log(result);
     if (result) {
       OK(res, result);
     } else {

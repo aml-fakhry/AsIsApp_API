@@ -1,4 +1,4 @@
-import { Result } from '../../../shared/models/data-result.model';
+import { Result } from '../../../../shared/models/data-result.model';
 import userRoleModel from '../model/user-role.model';
 
 /**
@@ -9,15 +9,13 @@ export class UserRolesDataAccess {
    * Gets all the user roles registered on the system.
    */
   static async getAll() {
-    const result = Result;
-
+    Result;
     try {
-      const roles = await userRoleModel.find().populate('users');
-      result.data = roles;
+      Result.data = await userRoleModel.find().populate('users');
+      Result.isNotFound = !Result.data;
     } catch (error) {
-      result.error = error;
+      Result.error = error;
     }
-
-    return result;
+    return Result;
   }
 }

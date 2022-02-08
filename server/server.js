@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import { connect, connection } from 'mongoose';
 import { config } from '../config/development';
-import { authRelativeRoute, authRouter } from '../src/routes/auth/auth.routes';
+import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes';
+import { userRouter, userRelativeRoute } from '../src/routes/security/user/user.routes';
 import util from 'util';
-const autoIncrement = require('mongodb-autoincrement');
+import { errorHandler } from '../shared/middleware/error-handel.middleware';
 
 /**
  * Sets the static files & security for an express server.
@@ -49,6 +50,7 @@ function registerRoutes(app) {
    */
   const apiBaseRoute = '/api/';
   app.use(apiBaseRoute + authRelativeRoute, authRouter);
+  app.use(apiBaseRoute + userRelativeRoute, userRouter);
 }
 
 export function setupServer(app) {
@@ -62,6 +64,7 @@ export function setupServer(app) {
   setStaticsOptions(app);
   setRequestOptions(app);
   registerRoutes(app);
+  app.use(errorHandler);
 }
 
 /**

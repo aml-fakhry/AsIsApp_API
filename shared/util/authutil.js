@@ -1,5 +1,6 @@
 import { JWT } from './jwt.util';
 import { unAuthenticated, Forbidden } from './http-responses.util';
+import { InternalServerError } from './http-responses.util';
 /**
  * Authenticates the coming request by validating the jwt against validity and expiration.
  * @param req The express request.
@@ -21,6 +22,7 @@ export async function Authenticate(req, res, next) {
     }
   } catch (error) {
     InternalServerError(res, error);
+    console.log(error);
   }
 }
 
@@ -63,6 +65,7 @@ export function Authorize(...roles) {
       }
     } catch (error) {
       InternalServerError(res, error);
+      console.log(error);
     }
   };
 }
