@@ -2,6 +2,7 @@ import { JWT } from '../util/jwt.util';
 import { unAuthenticated } from '../util/http-responses.util';
 import { InternalServerError } from '../util/http-responses.util';
 import { Forbidden } from '../util/http-responses.util';
+import userRoleModel from '../../src/security/users/model/user-role.model';
 
 /**
  * Authenticates the coming request by validating the jwt against validity.
@@ -48,8 +49,7 @@ export async function Authenticate(req, res, next) {
       unAuthenticated(res);
     }
   } catch (error) {
-    // ServerError(res, error);
-    console.log(error);
+    InternalServerError(res, error);
   }
 }
 
@@ -57,7 +57,7 @@ export async function Authenticate(req, res, next) {
  * Authorizes the coming request by validating the jwt against validity and expiration in addition to authorize user role.
  * @param roles The list of user roles that the user should has one of them.
  */
-//  ...roles: UserRoles[]
+
 export function Authorize(...roles) {
   return async (req, res, next) => {
     try {
@@ -66,6 +66,8 @@ export function Authorize(...roles) {
        */
       const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
 
+      const role = await userRoleModel.findById(jwtData.roleId);
+
       /**
        * Check validity & expiration.
        */
@@ -73,8 +75,9 @@ export function Authorize(...roles) {
         /**
          * Check authority by user role.
          */
-        if (isInRoles(roles, jwtData.role ?? '')) {
-          req.prototype.user = {
+
+        if ([...roles].map((key) => key.toString()).includes(role.key)) {
+          req.user = {
             userId: jwtData.userId,
             jwtId: jwtData.id,
           };
@@ -92,18 +95,7 @@ export function Authorize(...roles) {
         unAuthenticated(res);
       }
     } catch (error) {
-      // ServerError(res, error);
-      console.log(error);
+      InternalServerError(res, error);
     }
   };
-}
-
-/**
- * Determines if the given role exists in the provided set of roles.
- * @param roles The roles to be scanned.
- * @param role The user role.
- */
-
-function isInRoles(roles, role) {
-  return roles.map((key) => key.toString()).includes(role);
 }

@@ -24,8 +24,6 @@ export const userRelativeRoute = 'security/user';
 userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
   try {
     const result = await UserDataAccess.createUser(req.body);
-    console.log('lkkj', result.validationErrors);
-
     if (Object.keys(result.error).length) {
       next(result.error);
     } else if (result.validationErrors && result.validationErrors.length) {
@@ -36,16 +34,14 @@ userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
       OK(res, result);
     }
   } catch (error) {
-    console.log(error);
-    InternalServerError(res, error);
+    next(error);
   }
 });
 
 /* Create new user route. */
-userRouter.get('/user-role', Authorize(UserRoles.ServiceProvider), async (req, res, next) => {
+userRouter.get('/user-role', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
-    console.log(result);
 
     if (Object.keys(result.error).length) {
       next(result.error);
@@ -55,7 +51,6 @@ userRouter.get('/user-role', Authorize(UserRoles.ServiceProvider), async (req, r
       OK(res, result);
     }
   } catch (error) {
-    Promise.reject(error);
-    console.log(error);
+    next(error);
   }
 });

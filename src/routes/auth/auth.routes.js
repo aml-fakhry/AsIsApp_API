@@ -36,7 +36,6 @@ authRouter.post('/signup', validation(userSchema), async (req, res, next) => {
 authRouter.get('/user-role', async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
-    console.log(result);
     if (result) {
       OK(res, result);
     } else {

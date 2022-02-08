@@ -26,7 +26,7 @@ export const authRelativeRoute = 'security/auth';
 authRouter.post('/login', async (req, res, next) => {
   try {
     const userResult = await UserDataAccess.findByCredentials(req.body.username, req.body.password);
-    console.log({ userResult });
+
     if (userResult.isNotFound) {
       return BadRequest(res, {
         code: AppErrorCode.Forbidden,
@@ -35,13 +35,11 @@ authRouter.post('/login', async (req, res, next) => {
         detail: 'Invalid login',
       });
     }
-    const jwt = await JWT.genToken(uuid(), userResult.data?._id ?? 0, userResult.data?.userRole?.key ?? '');
-
+    const jwt = await JWT.genToken(uuid(), userResult.data?._id ?? 0, userResult.data?.userRoleId ?? 0);
     const jwtData = await JWT.verifyAndDecode(jwt, true);
 
     const accessTokenResult = await AuthDataAccess.createAccessToken({
-      id: jwtData?.id ?? '',
-      userId: userResult.data?.id ?? 0,
+      userId: userResult.data?._id ?? 0,
       issuedAt: new Date((jwtData?.iat ?? 0) * 1000),
       expiresAt: new Date((jwtData?.exp ?? 0) * 1000),
     });

@@ -33,16 +33,15 @@ export default class AuthDataAccess {
         ];
         return result;
       }
-
       //#endregion
 
       const accessToken = await accessTokenModel.create({
-        id: data.id,
         issuedAt: data.issuedAt,
         expiresAt: data.expiresAt,
         userId: data.userId,
       });
-      result.data = (await this.findAccessTokenById(accessToken.id)).data;
+
+      result.data = (await this.findAccessTokenById(accessToken._id)).data;
     } catch (error) {
       result.error = error;
     }
