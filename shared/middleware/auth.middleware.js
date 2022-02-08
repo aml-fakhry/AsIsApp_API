@@ -1,5 +1,7 @@
 import { JWT } from '../util/jwt.util';
 import { unAuthenticated } from '../util/http-responses.util';
+import { InternalServerError } from '../util/http-responses.util';
+import { Forbidden } from '../util/http-responses.util';
 
 /**
  * Authenticates the coming request by validating the jwt against validity.
@@ -22,8 +24,7 @@ export async function AuthenticateWithTolerance(req, res, next) {
       unAuthenticated(res);
     }
   } catch (error) {
-    // InternalServerError(res, error);
-    console.log(error);
+    InternalServerError(res, error);
   }
 }
 
@@ -47,7 +48,7 @@ export async function Authenticate(req, res, next) {
       unAuthenticated(res);
     }
   } catch (error) {
-    // InternalServerError(res, error);
+    // ServerError(res, error);
     console.log(error);
   }
 }
@@ -73,7 +74,7 @@ export function Authorize(...roles) {
          * Check authority by user role.
          */
         if (isInRoles(roles, jwtData.role ?? '')) {
-          req.user = {
+          req.prototype.user = {
             userId: jwtData.userId,
             jwtId: jwtData.id,
           };
@@ -91,7 +92,7 @@ export function Authorize(...roles) {
         unAuthenticated(res);
       }
     } catch (error) {
-      // InternalServerError(res, error);
+      // ServerError(res, error);
       console.log(error);
     }
   };

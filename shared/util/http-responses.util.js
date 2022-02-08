@@ -52,3 +52,21 @@ export function Forbidden(res) {
   };
   return res.status(403).send(body);
 }
+
+/**
+ * Returns an internal server error response with 500 status code.
+ * @param response The http-response to be modified.
+ * @param error The error or error-message to be sent within the response' body.
+ */
+export function InternalServerError(response, error) {
+  const body = {
+    errors: [
+      {
+        code: AppErrorCode.InternalServerError,
+        title: AppError.InternalServerError,
+        detail: typeof error === 'string' ? error : error.message,
+      },
+    ],
+  };
+  return response.status(500).send(body);
+}

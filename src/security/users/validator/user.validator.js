@@ -1,15 +1,15 @@
 export const userSchema = {
   type: 'object',
   properties: {
-    name: {
+    username: {
       type: 'string',
       maxLength: 50,
       minLength: 2,
       errorMessage: {
         // In here must be errorMessage not errorMessages
-        type: 'Name must be an string', // Your Custom Error Message
-        minLength: 'Name length should be a number not less than or equal to 1, current value is ${/size} ',
-        maxLength: 'Name length should be a number bigger than or equal to 50, current value is ${/size}',
+        type: 'User ame must be an string', // Your Custom Error Message
+        minLength: 'User name length should be a number not less than or equal to 1, current value is ${/size} ',
+        maxLength: 'User name length should be a number bigger than or equal to 50, current value is ${/size}',
       },
     },
     email: {
@@ -40,6 +40,6 @@ export const userSchema = {
       },
     },
   },
-  required: ['name', 'email', 'password'],
+  required: ['username', 'email', 'password'],
   additionalProperties: false,
 };

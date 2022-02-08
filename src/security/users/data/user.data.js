@@ -4,6 +4,7 @@ import { AppErrorCode } from '../../../../shared/models/app-error-code.model';
 import { AppError } from '../../../../shared/models/app-error.model';
 import userRoleModel from '../model/user-role.model';
 import { Hash } from '../../../../shared/util/hash.util';
+import { InternalServerError } from '../../../../shared/util/http-responses.util';
 
 /**
  * The user data-access service that includes the functionalities to create and read a user .
@@ -14,43 +15,48 @@ export default class UserDataAccess {
    * @param data The data-model to create the new user.
    */
   static async createUser(data) {
-    const result = Result;
+    Result;
     try {
       /* Make sure that userRole is exists in the database. */
       const [nameExist, emailExist, userRole] = await Promise.all([
-        userModel.findOne({ name: data.name }),
+        userModel.findOne({ username: data.username }),
         userModel.findOne({ email: data.email }),
         userRoleModel.findById(data.userRoleId),
       ]);
 
       /** Check if code is already exists in database. */
       if (nameExist) {
-        return (result.validationErrors = [
+        Result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
-            source: 'name',
+            source: 'username',
             title: AppError.ValueExists,
-            detail: `Name already exists`,
+            detail: `User name already exists`,
           },
-        ]);
+        ];
+        return Result;
       } else if (emailExist) {
-        return (result.validationErrors = [
+        Result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
             source: 'email',
             title: AppError.ValueExists,
-            detail: `Email already exists`,
+            detail: `Email ${emailExist.email} already exists`,
           },
-        ]);
+        ];
+        return Result;
       } else if (!userRole) {
-        return (result.validationErrors = [
+        Result.validationErrors = [
           {
             code: AppErrorCode.RelatedEntityNotFound,
             source: 'userRoleId',
             title: AppError.RelatedEntityNotFound,
             detail: `User role not exist`,
           },
-        ]);
+        ];
+        return Result;
+      } else {
+        Result.validationErrors = [];
       }
 
       /**
@@ -61,18 +67,18 @@ export default class UserDataAccess {
 
       /* create employee.reward and deduction */
       const user = await userModel.create({
-        name: data.name,
+        username: data.username,
         email: data.email,
         password: hashPassword,
         userRoleId: data.userRoleId,
       });
 
-      return (result.data = (await this.findById(user._id)).data);
+      Result.data = (await this.findById(user._id)).data;
     } catch (error) {
-      console.log(error);
-      result.error = error;
+      Result.error = error;
+      console.log({ error });
     }
-    return result;
+    return Result;
   }
 
   /**
@@ -100,27 +106,26 @@ export default class UserDataAccess {
     const result = Result;
 
     try {
-      const user = await Database.Users.findOne({ where: { username: username.toString() } });
+      const user = await userModel.findOne({ where: { username: username } });
 
       /**
        * Check user existence, password validity & allowance to log in the system.
        */
-      if (!user || !(await Hash.compare(password, user.password)) || user.isSystemUser === true) {
+      if (!user || !(await Hash.compare(password, user.password))) {
         result.isNotFound = true;
         return result;
       } else if (!user?.isActive) {
-        result.validationErrors = [
+        return (result.validationErrors = [
           {
             code: AppErrorCode.Forbidden,
             source: 'userId',
             title: AppError.Forbidden,
             detail: `SECURITY.USER.USER_IS_BLOCKED`,
           },
-        ];
-        return result;
+        ]);
       }
 
-      result.data = (await this.findById(user.id)).data;
+      result.data = (await this.findById(user._id)).data;
     } catch (error) {
       result.error = error;
     }
