@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { counter } from '../../../../shared/util/counter.util';
+import { counter } from '../../../../../shared/util/counter.util';
 
 const accessTokenSchema = Schema({
   issuedAt: { type: Date },

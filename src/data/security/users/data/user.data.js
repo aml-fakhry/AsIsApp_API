@@ -1,10 +1,9 @@
 import userModel from '../model/user.model';
-import { Result } from '../../../../shared/models/data-result.model';
-import { AppErrorCode } from '../../../../shared/models/app-error-code.model';
-import { AppError } from '../../../../shared/models/app-error.model';
+import { Result } from '../../../../../shared/models/data-result.model';
+import { AppErrorCode } from '../../../../../shared/models/app-error-code.model';
+import { AppError } from '../../../../../shared/models/app-error.model';
 import userRoleModel from '../model/user-role.model';
-import { Hash } from '../../../../shared/util/hash.util';
-import { InternalServerError } from '../../../../shared/util/http-responses.util';
+import { Hash } from '../../../../../shared/util/hash.util';
 
 /**
  * The user data-access service that includes the functionalities to create and read a user .

@@ -2,8 +2,7 @@ import { JWT } from '../util/jwt.util';
 import { unAuthenticated } from '../util/http-responses.util';
 import { InternalServerError } from '../util/http-responses.util';
 import { Forbidden } from '../util/http-responses.util';
-import userRoleModel from '../../src/security/users/model/user-role.model';
-
+import userRoleModel from '../../src/data/security/users/model/user-role.model';
 /**
  * Authenticates the coming request by validating the jwt against validity and expiration.
  * @param req The express request.

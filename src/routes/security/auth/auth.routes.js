@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { OK, BadRequest } from '../../../../shared/util/http-responses.util';
 import { JWT } from '../../../../shared/util/jwt.util';
-import UserDataAccess from '../../../security/users/data/user.data';
-import AuthDataAccess from '../../../security/auth/data/auth.data';
+import UserDataAccess from '../../../data/security/users/data/user.data';
+import AuthDataAccess from '../../../data/security/auth/data/auth.data';
 import { v4 as uuid } from 'uuid';
 import { AppErrorCode } from '../../../../shared/models/app-error-code.model';
 import { AppError } from '../../../../shared/models/app-error.model';
