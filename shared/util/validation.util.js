@@ -11,7 +11,7 @@ export function validation(schema) {
       const validate = ajv.compile(schema);
       const valid = validate(req.body);
       if (valid) {
-        console.log('User data is valid');
+        // console.log('User data is valid');
         next();
       } else {
         console.log('User data is INVALID!');

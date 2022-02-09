@@ -15,7 +15,7 @@ export default class UserDataAccess {
    * @param data The data-model to create the new user.
    */
   static async createUser(data) {
-    Result;
+    const result = Result;
     try {
       /* Make sure that userRole is exists in the database. */
       const [nameExist, emailExist, userRole] = await Promise.all([
@@ -26,7 +26,7 @@ export default class UserDataAccess {
 
       /** Check if code is already exists in database. */
       if (nameExist) {
-        Result.validationErrors = [
+        result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
             source: 'username',
@@ -34,9 +34,9 @@ export default class UserDataAccess {
             detail: `User name already exists`,
           },
         ];
-        return Result;
+        return result;
       } else if (emailExist) {
-        Result.validationErrors = [
+        result.validationErrors = [
           {
             code: AppErrorCode.ValueExists,
             source: 'email',
@@ -44,9 +44,9 @@ export default class UserDataAccess {
             detail: `Email ${emailExist.email} already exists`,
           },
         ];
-        return Result;
+        return result;
       } else if (!userRole) {
-        Result.validationErrors = [
+        result.validationErrors = [
           {
             code: AppErrorCode.RelatedEntityNotFound,
             source: 'userRoleId',
@@ -54,9 +54,9 @@ export default class UserDataAccess {
             detail: `User role not exist`,
           },
         ];
-        return Result;
+        return result;
       } else {
-        Result.validationErrors = [];
+        result.validationErrors = [];
       }
 
       /**
