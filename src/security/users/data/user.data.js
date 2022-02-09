@@ -73,9 +73,9 @@ export default class UserDataAccess {
         userRoleId: data.userRoleId,
       });
 
-      Result.data = (await this.findById(user._id)).data;
+      result.data = (await this.findById(user._id)).data;
     } catch (error) {
-      Result.error = error;
+      result.error = error;
       console.log({ error });
     }
     return Result;
