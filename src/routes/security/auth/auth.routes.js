@@ -7,9 +7,7 @@ import { v4 as uuid } from 'uuid';
 import { AppErrorCode } from '../../../../shared/models/app-error-code.model';
 import { AppError } from '../../../../shared/models/app-error.model';
 
-/**
- * The auth router that holds all module routes.
- */
+/*  The auth router that holds all module routes. */
 export const authRouter = Router();
 
 /**
