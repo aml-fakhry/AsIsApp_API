@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { OK, BadRequest, InternalServerError } from '../../../../shared/util/http-responses.util';
+import { OK, BadRequest } from '../../../../shared/util/http-responses.util';
 import { validation } from '../../../../shared/util/validation.util';
 import UserDataAccess from '../../../security/users/data/user.data';
 import { UserRolesDataAccess } from '../../../security/users/data/user-role.data';

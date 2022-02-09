@@ -17,10 +17,9 @@ export const app = express();
 
 /**
  * Bootstrap the app in the following order.
- * 1. Connect to online DataBase.
+ * 1. Connect to online DataBase at first and don't run server until connected secussfuly to online db.
  * 2. Setup the express server.
  * 3. Start express server after all are done.
- *
  */
 server.connectDataBase().then(() => {
   server.setupServer(app);

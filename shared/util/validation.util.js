@@ -9,9 +9,7 @@ export function validation(schema) {
   return async (req, res, next) => {
     try {
       const validate = ajv.compile(schema);
-
       const valid = validate(req.body);
-
       if (valid) {
         console.log('User data is valid');
         next();
@@ -21,6 +19,7 @@ export function validation(schema) {
       }
     } catch (error) {
       console.log(error);
+      next(error);
     }
   };
 }
