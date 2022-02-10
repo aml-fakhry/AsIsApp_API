@@ -42,7 +42,6 @@ userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
 userRouter.get('/user-role', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
-
     if (Object.keys(result.error).length) {
       next(result.error);
     } else if (result.isNotFound) {

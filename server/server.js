@@ -1,11 +1,13 @@
 import express from 'express';
 import cors from 'cors';
 import { connect, connection } from 'mongoose';
+import util from 'util';
 import { config } from '../config/development';
 import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes';
 import { userRouter, userRelativeRoute } from '../src/routes/security/user/user.routes';
 import { errorHandler } from '../shared/middleware/error-handel.middleware';
-import util from 'util';
+import cookieParser from 'cookie-parser';
+
 /**
  * Sets the static files & security for an express server.
  * @param app The express application to set its express server's request options.
@@ -39,6 +41,13 @@ function setRequestOptions(app) {
    * The limit of request body size my be set using this option { limit: '5mb' }, default is 100kb.
    */
   app.use(express.urlencoded({ limit: '5mb', extended: true }));
+
+  /**
+   * Allow set token in cookie at client side.
+   * Parse Cookie header and populate req.cookies with an object keyed by the cookie names.
+   *  Optionally you may enable signed cookie support by passing a secret string, which assigns req.
+   */
+  app.use(cookieParser());
 }
 
 function registerRoutes(app) {
