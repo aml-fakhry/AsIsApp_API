@@ -39,9 +39,8 @@ export function Authorize(...roles) {
        * Gets the unsigned json web token from the request's authorization header.
        * Gets user from request authorization header.
        */
-      const [jwtData, role] = await Promise.all[
-        JWT.verifyAndDecode(req.headers.authorization ?? '', userRoleModel.findById(jwtData.roleId))
-      ];
+      const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
+      const role = await userRoleModel.findById(jwtData.roleId);
 
       /* Check validity & expiration. */
 

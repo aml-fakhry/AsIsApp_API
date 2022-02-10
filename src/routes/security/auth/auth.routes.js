@@ -42,6 +42,7 @@ authRouter.post('/login', async (req, res, next) => {
     if (accessTokenResult.validationErrors && accessTokenResult.validationErrors.length) {
       BadRequest(res, { errors: accessTokenResult.validationErrors });
     } else if (accessTokenResult.data) {
+      res.cookie('authorization', jwt);
       OK(res, {
         data: {
           user: userResult.data,
