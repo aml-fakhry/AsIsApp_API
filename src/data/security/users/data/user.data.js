@@ -14,7 +14,7 @@ export default class UserDataAccess {
    * @param data The data-model to create the new user.
    */
   static async createUser(data) {
-    const result = Result;
+    const result = new Result();
     try {
       /* Make sure that userRole is exists in the database. */
       const [nameExist, emailExist, userRole] = await Promise.all([
@@ -54,8 +54,6 @@ export default class UserDataAccess {
           },
         ];
         return result;
-      } else {
-        result.validationErrors = [];
       }
 
       /**
@@ -77,7 +75,7 @@ export default class UserDataAccess {
       result.error = error;
       console.log({ error });
     }
-    return Result;
+    return result;
   }
 
   /**
@@ -85,7 +83,7 @@ export default class UserDataAccess {
    * @param userId The id in user.
    */
   static async findById(userId) {
-    const result = Result;
+    const result = new Result();
 
     try {
       result.data = await userModel.findById(userId).populate('userRoleId');
@@ -102,7 +100,7 @@ export default class UserDataAccess {
    * @param password The password of the user.
    */
   static async findByCredentials(username, password) {
-    const result = Result;
+    const result = new Result();
 
     try {
       const user = await userModel.findOne({ where: { username: username } });

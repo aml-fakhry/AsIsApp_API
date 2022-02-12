@@ -92,10 +92,10 @@ export function startServer(app) {
 export async function connectDataBase(setupServerCB) {
   /* Ensure that we don't start the server unless database is connected. */
   const db = connection;
-  db.on('error', console.error.bind(console, 'connection error:  '));
+ db.on('error', console.error.bind(console, 'connection error:  '));
   db.once('open', function () {
     console.log('Connected successfully');
-  });
+  }); 
   /**
    * return promise instead of using call back.
    */
