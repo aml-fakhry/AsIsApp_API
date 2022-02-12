@@ -1,5 +1,5 @@
-import { model } from 'mongoose';
-
+import mongoose from 'mongoose';
+const { model } = mongoose;
 /**
  * set counter function to auto increment id field.
  * @param name name of model in db.

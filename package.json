@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
-    "start": "babel-node app.js",
+    "start": "nodemon app.js",
     "dev": "nodemon --exec npm start"
   },
   "repository": {

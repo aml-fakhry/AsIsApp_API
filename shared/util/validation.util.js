@@ -1,4 +1,4 @@
-import { ajv } from '../../app';
+import { ajv } from '../../app.js';
 
 /**
  * set validation function to validate data body.

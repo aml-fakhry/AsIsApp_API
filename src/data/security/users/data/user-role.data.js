@@ -1,5 +1,5 @@
-import { Result } from '../../../../../shared/models/data-result.model';
-import userRoleModel from '../model/user-role.model';
+import { Result } from '../../../../../shared/models/data-result.model.js';
+import userRoleModel from '../model/user-role.model.js';
 
 /**
  * The user roles data-access service that includes the functionalities to read user roles.

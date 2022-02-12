@@ -1,8 +1,8 @@
-import { Result } from '../../../../../shared/models/data-result.model';
-import { AppErrorCode } from '../../../../../shared/models/app-error-code.model';
-import { AppError } from '../../../../../shared/models/app-error.model';
-import accessTokenModel from '../model/access-token.model';
-import userModel from '../../users/model/user.model';
+import { Result } from '../../../../../shared/models/data-result.model.js';
+import { AppErrorCode } from '../../../../../shared/models/app-error-code.model.js';
+import { AppError } from '../../../../../shared/models/app-error.model.js';
+import accessTokenModel from '../model/access-token.model.js';
+import userModel from '../../users/model/user.model.js';
 
 /**
  * The auth data-access service that includes the functionalities to create and read a user .

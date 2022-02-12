@@ -1,5 +1,5 @@
-import { AppErrorCode } from '../models/app-error-code.model';
-import { AppError } from '../models/app-error.model';
+import { AppErrorCode } from '../models/app-error-code.model.js';
+import { AppError } from '../models/app-error.model.js';
 /**
  * Returns a succeeded response with 200 status code.
  * @param response The http-response to be modified.

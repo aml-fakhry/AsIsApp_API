@@ -1,6 +1,7 @@
 import express from 'express';
 import Ajv from 'ajv';
-import * as server from './server/server';
+import ajvErrors from 'ajv-errors';
+import * as server from './server/server.js';
 import addFormats from 'ajv-formats';
 
 /**
@@ -8,7 +9,8 @@ import addFormats from 'ajv-formats';
  * Get 'ajv-errors' to can write error message for each validate.
  */
 export const ajv = addFormats(new Ajv({ allErrors: true, validateFormats: true }));
-require('ajv-errors')(ajv /*{ singleError: true }*/);
+
+ajvErrors(ajv /*{ singleError: true }*/);
 
 /**
  * Creates an Express application. The express() function is a top-level function exported by the express module.

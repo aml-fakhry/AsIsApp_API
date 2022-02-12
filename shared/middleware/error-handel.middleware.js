@@ -1,4 +1,4 @@
-import { InternalServerError } from '../util/http-responses.util';
+import { InternalServerError } from '../util/http-responses.util.js';
 
 /**
  * A middleware that handles the errors that may occurs in express routes callbacks.

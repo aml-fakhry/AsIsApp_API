@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { config } from '../../config/development';
+import { config } from '../../config/development.js';
 
 /**
  * A helper that provides a set of hashing utility methods.

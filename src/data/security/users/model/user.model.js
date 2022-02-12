@@ -1,5 +1,6 @@
-import { Schema, model } from 'mongoose';
-import { counter } from '../../../../../shared/util/counter.util';
+import mongoose from 'mongoose';
+const { Schema, model } = mongoose;
+import { counter } from '../../../../../shared/util/counter.util.js';
 
 const userSchema = Schema({
   id: { type: Number },

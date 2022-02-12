@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { OK, BadRequest } from '../../../../shared/util/http-responses.util';
-import { JWT } from '../../../../shared/util/jwt.util';
-import UserDataAccess from '../../../data/security/users/data/user.data';
-import AuthDataAccess from '../../../data/security/auth/data/auth.data';
+import { OK, BadRequest } from '../../../../shared/util/http-responses.util.js';
+import { JWT } from '../../../../shared/util/jwt.util.js';
+import UserDataAccess from '../../../data/security/users/data/user.data.js';
+import AuthDataAccess from '../../../data/security/auth/data/auth.data.js';
 import { v4 as uuid } from 'uuid';
-import { AppErrorCode } from '../../../../shared/models/app-error-code.model';
-import { AppError } from '../../../../shared/models/app-error.model';
+import { AppErrorCode } from '../../../../shared/models/app-error-code.model.js';
+import { AppError } from '../../../../shared/models/app-error.model.js';
 
 /*  The auth router that holds all module routes. */
 export const authRouter = Router();

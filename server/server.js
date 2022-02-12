@@ -1,13 +1,14 @@
 import express from 'express';
 import cors from 'cors';
-import { connect, connection } from 'mongoose';
+import mongoose from 'mongoose';
 import util from 'util';
-import { config } from '../config/development';
-import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes';
-import { userRouter, userRelativeRoute } from '../src/routes/security/user/user.routes';
-import { errorHandler } from '../shared/middleware/error-handel.middleware';
+import { config } from '../config/development.js';
+import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes.js';
+import { userRouter, userRelativeRoute } from '../src/routes/security/user/user.routes.js';
+import { errorHandler } from '../shared/middleware/error-handel.middleware.js';
 import cookieParser from 'cookie-parser';
 
+const { connect, connection } = mongoose;
 /**
  * Sets the static files & security for an express server.
  * @param app The express application to set its express server's request options.

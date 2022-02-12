@@ -1,5 +1,5 @@
 import jsonwebtoken from 'jsonwebtoken';
-import { config } from '../../config/development';
+import { config } from '../../config/development.js';
 
 /**
  * A helper that provides a set of json web token utility methods.
