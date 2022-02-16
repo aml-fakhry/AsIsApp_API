@@ -6,6 +6,7 @@ const userSchema = Schema({
   id: { type: Number },
   username: { type: String },
   email: { type: String },
+  phone: { type: String },
   password: { type: String },
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },

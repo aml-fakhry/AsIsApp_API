@@ -66,6 +66,7 @@ export default class UserDataAccess {
       const user = await userModel.create({
         username: data.username,
         email: data.email,
+        phone: data.phone,
         password: hashPassword,
         userRoleId: data.userRoleId,
       });

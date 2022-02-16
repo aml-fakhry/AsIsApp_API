@@ -25,6 +25,7 @@ export const userSchema = {
         maxLength: 'password length should be a number bigger than or equal to 50, current value is ${/size}',
       },
     },
+    phone: { type: 'string', pattern: '^[0-9()\\-\\.\\s]+$' },
     password: {
       type: 'string',
       errorMessage: {
