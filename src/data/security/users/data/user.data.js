@@ -1,9 +1,10 @@
-import userModel from '../model/user.model.js';
 import { Result } from '../../../../../shared/models/data-result.model.js';
 import { AppErrorCode } from '../../../../../shared/models/app-error-code.model.js';
 import { AppError } from '../../../../../shared/models/app-error.model.js';
 import userRoleModel from '../model/user-role.model.js';
 import { Hash } from '../../../../../shared/util/hash.util.js';
+import { UserRoles } from '../model/roles.model.js';
+import userModel from '../model/user.model.js';
 
 /**
  * The user data-access service that includes the functionalities to create and read a user .
@@ -17,10 +18,11 @@ export default class UserDataAccess {
     const result = new Result();
     try {
       /* Make sure that userRole is exists in the database. */
-      const [nameExist, emailExist, userRole] = await Promise.all([
+      const [nameExist, emailExist, /* userRole */ auditorRole] = await Promise.all([
         userModel.findOne({ username: data.username }),
         userModel.findOne({ email: data.email }),
-        userRoleModel.findById(data.userRoleId),
+        /* userRoleModel.findById(data.userRoleId), */
+        userRoleModel.findOne({ key: UserRoles.AUDITOR }),
       ]);
 
       /** Check if code is already exists in database. */
@@ -44,7 +46,7 @@ export default class UserDataAccess {
           },
         ];
         return result;
-      } else if (!userRole) {
+      } /* else if (!userRole) {
         result.validationErrors = [
           {
             code: AppErrorCode.RelatedEntityNotFound,
@@ -54,7 +56,7 @@ export default class UserDataAccess {
           },
         ];
         return result;
-      }
+      } */
 
       /**
        * Hash user's password.
@@ -68,7 +70,8 @@ export default class UserDataAccess {
         email: data.email,
         phone: data.phone,
         password: hashPassword,
-        userRoleId: data.userRoleId,
+        gender: data.gender,
+        userRoleId: /* data.userRoleId ?? */ auditorRole._id,
       });
 
       result.data = (await this.findById(user._id)).data;

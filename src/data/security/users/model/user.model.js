@@ -7,6 +7,7 @@ const userSchema = Schema({
   username: { type: String },
   email: { type: String },
   phone: { type: String },
+  gender: { type: String, enum: ['female', 'male'] },
   password: { type: String },
   isActive: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },

@@ -19,10 +19,10 @@ export const userSchema = {
       minLength: 6,
       errorMessage: {
         // In here must be errorMessage not errorMessages
-        type: 'password must be a string', // Your Custom Error Message
+        type: 'Email must be a string', // Your Custom Error Message
         format: 'must be with email format.',
-        minLength: 'password length should be a number not less than or equal to 1, current value is ${/size} ',
-        maxLength: 'password length should be a number bigger than or equal to 50, current value is ${/size}',
+        minLength: 'Email length should be a number not less than or equal to 1, current value is ${/size} ',
+        maxLength: 'Email length should be a number bigger than or equal to 50, current value is ${/size}',
       },
     },
     phone: { type: 'string', pattern: '^[0-9()\\-\\.\\s]+$' },
@@ -31,6 +31,12 @@ export const userSchema = {
       errorMessage: {
         // In here must be errorMessage not errorMessages
         type: 'password must be an string', // Your Custom Error Message
+      },
+    },
+    gender: {
+      enum: ['female', 'male'],
+      errorMessage: {
+        type: 'gender must be a string', // Your Custom Error Message
       },
     },
     userRoleId: {
