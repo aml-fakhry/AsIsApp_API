@@ -3,8 +3,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import util from 'util';
 import { config } from '../config/development.js';
-import { authRelativeRoute, authRouter } from '../src/routes/security/auth/auth.routes.js';
-import { userRouter, userRelativeRoute } from '../src/routes/security/user/user.routes.js';
+import { authRelativeRoute, authRouter } from '../src/routes/security/auth.routes.js';
+import { userRouter, userRelativeRoute } from '../src/routes/security/user.routes.js';
 import { errorHandler } from '../shared/middleware/error-handel.middleware.js';
 import cookieParser from 'cookie-parser';
 
@@ -92,10 +92,10 @@ export function startServer(app) {
 export async function connectDataBase(setupServerCB) {
   /* Ensure that we don't start the server unless database is connected. */
   const db = connection;
- db.on('error', console.error.bind(console, 'connection error:  '));
+  db.on('error', console.error.bind(console, 'connection error:  '));
   db.once('open', function () {
     console.log('Connected successfully');
-  }); 
+  });
   /**
    * return promise instead of using call back.
    */

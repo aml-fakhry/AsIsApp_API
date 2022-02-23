@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import { OK, BadRequest } from '../../../../shared/util/http-responses.util.js';
-import { validation } from '../../../../shared/util/validation.util.js';
-import UserDataAccess from '../../../data/security/users/data/user.data.js';
-import { UserRolesDataAccess } from '../../../data/security/users/data/user-role.data.js';
-import { userSchema } from '../../../data/security/users/validator/user.validator.js';
-import { unAuthenticated } from '../../../../shared/util/http-responses.util.js';
-import { UserRoles } from '../../../data/security/users/model/roles.model.js';
-import { Authorize } from '../../../../shared/middleware/auth.middleware.js';
+import { OK, BadRequest } from '../../../shared/util/http-responses.util.js';
+import { validation } from '../../../shared/util/validation.util.js';
+import UserDataAccess from '../../data/security/users/data/user.data.js';
+import { UserRolesDataAccess } from '../../data/security/users/data/user-role.data.js';
+import { userSchema } from '../../data/security/users/validator/user.validator.js';
+import { unAuthenticated } from '../../../shared/util/http-responses.util.js';
+import { UserRoles } from '../../data/security/users/model/roles.model.js';
+import { Authorize } from '../../../shared/middleware/auth.middleware.js';
 
 /**
  * The user router that holds all module routes.

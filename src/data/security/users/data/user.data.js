@@ -107,7 +107,7 @@ export default class UserDataAccess {
     const result = new Result();
 
     try {
-      const user = await userModel.findOne({ where: { username: username } });
+      const user = await userModel.findOne({ username: username });
 
       /**
        * Check user existence, password validity & allowance to log in the system.
