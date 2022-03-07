@@ -38,7 +38,7 @@ userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
   }
 });
 
-/* Create new user route. */
+/* Get user route. */
 userRouter.get('/user-role', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
