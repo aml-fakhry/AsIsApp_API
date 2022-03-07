@@ -5,6 +5,7 @@ import util from 'util';
 import { config } from '../config/development.js';
 import { authRelativeRoute, authRouter } from '../src/routes/security/auth.routes.js';
 import { userRouter, userRelativeRoute } from '../src/routes/security/user.routes.js';
+import { postRelativeRoute, postRouter } from '../src/routes/posts/post.routes.js';
 import { errorHandler } from '../shared/middleware/error-handel.middleware.js';
 import cookieParser from 'cookie-parser';
 
@@ -60,6 +61,7 @@ function registerRoutes(app) {
   const apiBaseRoute = '/api/';
   app.use(apiBaseRoute + authRelativeRoute, authRouter);
   app.use(apiBaseRoute + userRelativeRoute, userRouter);
+  app.use(apiBaseRoute + postRelativeRoute, postRouter);
 }
 
 export function setupServer(app) {

@@ -9,7 +9,7 @@ export class UserRolesDataAccess {
    * Gets all the user roles registered on the system.
    */
   static async getAll() {
-    const result = Result;
+    const result = new Result();
     try {
       result.data = await userRoleModel.find().populate('users');
       result.isNotFound = !result.data;
