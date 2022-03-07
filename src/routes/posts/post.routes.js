@@ -18,8 +18,8 @@ export const postRelativeRoute = 'post';
 
 postRouter.post('', Authorize(UserRoles.SYSTEM_ADMIN), validation(postSchema), async (req, res, next) => {
   try {
-    console.log('ppp', req.body);
     const result = await postDataAccess.create(req.body, req.user.userId);
+    console.log({ result });
     if (Object.keys(result.error).length) {
       next(result.error);
     } else if (result.validationErrors && result.validationErrors.length) {

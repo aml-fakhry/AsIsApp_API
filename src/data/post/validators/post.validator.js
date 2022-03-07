@@ -40,6 +40,6 @@ export const postSchema = {
       },
     },
   },
-  required: ['username', 'content'],
+  required: ['content'],
   additionalProperties: false,
 };

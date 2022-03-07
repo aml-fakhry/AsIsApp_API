@@ -10,5 +10,5 @@ const postSchema = Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
-counter('User', postSchema, 'createdAt');
-export default model('Posts', postSchema);
+counter('Post', postSchema, 'createdAt');
+export default model('Post', postSchema);

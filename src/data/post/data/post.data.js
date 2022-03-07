@@ -31,7 +31,7 @@ export default class postDataAccess {
       }
 
       const post = await postModel.create({
-        username: data.username,
+        username: user.username,
         content: data.content,
         userId,
       });
