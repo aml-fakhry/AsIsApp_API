@@ -7,6 +7,22 @@ const postSchema = Schema({
   content: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
+  comments: [
+    {
+      username: { type: String, default: '' },
+      content: { type: String },
+      createdAt: { type: Date, default: Date.now },
+      updatedAt: { type: Date },
+      userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    },
+  ],
+  likes: [
+    {
+      username: { type: String, default: '' },
+      userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    },
+  ],
+  totalLikes: { type: Number, default: 0 },
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
