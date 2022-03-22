@@ -23,6 +23,13 @@ const postSchema = Schema({
     },
   ],
   totalLikes: { type: Number, default: 0 },
+  // posts: [
+  //   {
+  //     postId: { type: Schema.Types.ObjectId, ref: 'Post' },
+  //     createdAt: { type: Date, default: Date.now },
+  //     post: { type: String },
+  //   },
+  // ],
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 

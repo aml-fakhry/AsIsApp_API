@@ -21,7 +21,7 @@ export const authRelativeRoute = 'security/auth';
 authRouter.post('/login', async (req, res, next) => {
   try {
     const userResult = await UserDataAccess.findByCredentials(req.body.username, req.body.password);
-    console.log({ userResult });
+
     if (userResult.isNotFound) {
       return BadRequest(res, {
         code: AppErrorCode.Forbidden,

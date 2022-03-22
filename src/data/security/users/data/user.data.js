@@ -71,7 +71,7 @@ export default class UserDataAccess {
         phone: data.phone,
         password: hashPassword,
         gender: data.gender,
-        userRoleId: /* data.userRoleId ?? */ auditorRole._id,
+        userRoleId: auditorRole._id /* data.userRoleId ?? */,
       });
 
       result.data = (await this.findById(user._id)).data;

@@ -94,6 +94,29 @@ export const postSchema = {
       },
     },
     totalLikes: { type: 'number', default: 0 },
+    // posts: {
+    //   type: 'array',
+    //   items: {
+    //     type: 'object',
+    //     properties: {
+    //       postId: {
+    //         type: 'string',
+    //         errorMessage: {
+    //           type: 'Post id must be a string', // Custom Error Message
+    //         },
+    //       },
+    //       post: { type: 'string' },
+    //       createdAt: {
+    //         type: 'string',
+    //         format: 'date-time',
+    //       },
+    //     },
+    //     required: [
+    //       /* 'username', 'userId' */
+    //     ],
+    //     additionalProperties: false,
+    //   },
+    // },
     userId: {
       type: 'string',
       errorMessage: {
