@@ -88,7 +88,6 @@ export default class UserDataAccess {
    */
   static async findById(userId) {
     const result = new Result();
-
     try {
       result.data = await userModel.findById(userId).populate('userRoleId');
       result.isNotFound = !result.data;

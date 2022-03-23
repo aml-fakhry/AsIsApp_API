@@ -6,7 +6,7 @@ import { UserRolesDataAccess } from '../../data/security/users/data/user-role.da
 import { userSchema } from '../../data/security/users/validator/user.validator.js';
 import { unAuthenticated } from '../../../shared/util/http-responses.util.js';
 import { UserRoles } from '../../data/security/users/model/roles.model.js';
-import { Authorize } from '../../../shared/middleware/auth.middleware.js';
+import { Authenticate, Authorize } from '../../../shared/middleware/auth.middleware.js';
 
 /**
  * The user router that holds all module routes.
@@ -42,6 +42,22 @@ userRouter.post('/signup', validation(userSchema), async (req, res, next) => {
 userRouter.get('/user-role', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
   try {
     const result = await UserRolesDataAccess.getAll();
+    if (Object.keys(result.error).length) {
+      next(result.error);
+    } else if (result.isNotFound) {
+      return unAuthenticated(res);
+    } else if (result.data) {
+      OK(res, result);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Get user route. */
+userRouter.get('/:id', Authenticate, async (req, res, next) => {
+  try {
+    const result = await UserDataAccess.findById(req.params.id);
     if (Object.keys(result.error).length) {
       next(result.error);
     } else if (result.isNotFound) {
