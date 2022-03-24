@@ -2,12 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import util from 'util';
+import cookieParser from 'cookie-parser';
+import http from 'http';
+import * as socketio from 'socket.io';
+
 import { config } from '../config/development.js';
 import { authRelativeRoute, authRouter } from '../src/routes/security/auth.routes.js';
 import { userRouter, userRelativeRoute } from '../src/routes/security/user.routes.js';
 import { postRelativeRoute, postRouter } from '../src/routes/posts/post.routes.js';
 import { errorHandler } from '../shared/middleware/error-handel.middleware.js';
-import cookieParser from 'cookie-parser';
 
 const { connect, connection } = mongoose;
 /**
@@ -20,6 +23,12 @@ function setStaticsOptions(app) {
    * Only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
    */
   app.enable('trust proxy');
+}
+
+function createSocketServer(app) {
+  const server = http.createServer(app);
+  const socketServer = io.listen(server);
+  return server;
 }
 
 /**
@@ -83,7 +92,8 @@ export function setupServer(app) {
  * @param app The express application to start its express server.
  */
 export function startServer(app) {
-  app.listen(config.PORT, () => {
+  const server = createSocketServer(app);
+  server.listen(config.PORT, () => {
     console.log(`Server is running at port ${config.PORT}`);
   });
 }

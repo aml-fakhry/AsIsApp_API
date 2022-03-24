@@ -59,7 +59,7 @@ export default class postDataAccess {
     const result = new Result();
 
     try {
-      result.data = await postModel.findById(postId).populate('userId');
+      result.data = await postModel.findById(postId).populate('userId', '-password -email').sort({ createdAt: -1 });
       result.isNotFound = !result.data;
     } catch (error) {
       result.error = error;
@@ -68,7 +68,7 @@ export default class postDataAccess {
   }
 
   /**
-   *
+   * Find all posts.
    * @param userId logged in user id.
    */
   static async getAllPosts(userId) {
@@ -91,7 +91,7 @@ export default class postDataAccess {
         return result;
       }
 
-      result.data = await postModel.find();
+      result.data = await postModel.find().populate('userId', '-password -email').sort({ createdAt: -1 });
     } catch (error) {
       result.error = error;
     }
@@ -99,7 +99,7 @@ export default class postDataAccess {
   }
 
   /**
-   *
+   * Find all user posts.
    * @param userId logged in user id.
    */
   static async getAllUserPosts(userId) {
@@ -122,7 +122,10 @@ export default class postDataAccess {
         return result;
       }
 
-      result.data = await postModel.find({ userId: userId });
+      result.data = await postModel
+        .find({ userId: userId })
+        .populate('userId', '-password -email')
+        .sort({ createdAt: -1 });
     } catch (error) {
       result.error = error;
     }

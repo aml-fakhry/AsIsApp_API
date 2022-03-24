@@ -16,23 +16,28 @@ export const postRouter = Router();
  */
 export const postRelativeRoute = 'post';
 
-postRouter.post('', Authorize(UserRoles.SYSTEM_ADMIN), validation(postSchema), async (req, res, next) => {
-  try {
-    const result = await postDataAccess.create(req.body, req.user.userId);
-    console.log({ result });
-    if (Object.keys(result.error).length) {
-      next(result.error);
-    } else if (result.validationErrors && result.validationErrors.length) {
-      BadRequest(res, { errors: result.validationErrors });
-    } else if (result.isNotFound) {
-      return unAuthenticated(res);
-    } else if (result.data) {
-      OK(res, result);
+postRouter.post(
+  '',
+  Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR),
+  validation(postSchema),
+  async (req, res, next) => {
+    try {
+      const result = await postDataAccess.create(req.body, req.user.userId);
+      console.log({ result });
+      if (Object.keys(result.error).length) {
+        next(result.error);
+      } else if (result.validationErrors && result.validationErrors.length) {
+        BadRequest(res, { errors: result.validationErrors });
+      } else if (result.isNotFound) {
+        return unAuthenticated(res);
+      } else if (result.data) {
+        OK(res, result);
+      }
+    } catch (error) {
+      next(error);
     }
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 /* Get all posts route. */
 postRouter.get('/posts', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
