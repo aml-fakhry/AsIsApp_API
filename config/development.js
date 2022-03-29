@@ -5,4 +5,5 @@ export const config = {
   HASHING_SALT_ROUNDS: 10,
   JWT_PRIVATE_KEY: 'Aml_fakhri_signature',
   JWT_LIFE_TIME: '10d',
+  WS_PORT: 3333,
 };

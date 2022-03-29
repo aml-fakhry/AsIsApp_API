@@ -3,16 +3,17 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import util from 'util';
 import cookieParser from 'cookie-parser';
-import http from 'http';
-import * as socketio from 'socket.io';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+const { connect, connection } = mongoose;
 
 import { config } from '../config/development.js';
 import { authRelativeRoute, authRouter } from '../src/routes/security/auth.routes.js';
 import { userRouter, userRelativeRoute } from '../src/routes/security/user.routes.js';
 import { postRelativeRoute, postRouter } from '../src/routes/posts/post.routes.js';
 import { errorHandler } from '../shared/middleware/error-handel.middleware.js';
+import { WebSocket } from '../src/socket/webSocket.js';
 
-const { connect, connection } = mongoose;
 /**
  * Sets the static files & security for an express server.
  * @param app The express application to set its express server's request options.
@@ -23,12 +24,6 @@ function setStaticsOptions(app) {
    * Only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc).
    */
   app.enable('trust proxy');
-}
-
-function createSocketServer(app) {
-  const server = http.createServer(app);
-  const socketServer = io.listen(server);
-  return server;
 }
 
 /**
@@ -88,26 +83,49 @@ export function setupServer(app) {
 }
 
 /**
+ * Starts an socket server.
+ * @param app The express application to start its express server.
+ */
+
+function startSocketServer(app) {
+  const httpServer = createServer(app);
+  const socketIOServer = new Server(httpServer, {
+    cors: {
+      origin: 'http://localhost:4200',
+      methods: ['GET', 'POST'],
+    },
+  });
+
+  WebSocket.setSocket(socketIOServer);
+  httpServer.listen(config.WS_PORT, () => {
+    console.log(`Socket server is running at port ${config.WS_PORT}`);
+  });
+}
+
+/**
  * Starts an express server.
  * @param app The express application to start its express server.
  */
 export function startServer(app) {
-  const server = createSocketServer(app);
-  server.listen(config.PORT, () => {
+  app.listen(config.PORT, () => {
     console.log(`Server is running at port ${config.PORT}`);
   });
+
+  /* Start socket server. */
+  startSocketServer(app);
 }
 
 /**
  * Connect to online Database.
  */
-export async function connectDataBase(setupServerCB) {
+export async function connectDataBase() {
   /* Ensure that we don't start the server unless database is connected. */
   const db = connection;
   db.on('error', console.error.bind(console, 'connection error:  '));
   db.once('open', function () {
     console.log('Connected successfully');
   });
+
   /**
    * return promise instead of using call back.
    */
