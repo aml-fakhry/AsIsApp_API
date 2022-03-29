@@ -3,6 +3,7 @@ import postModel from '../model/post.model.js';
 import { AppError } from '../../../../shared/models/app-error.model.js';
 import { AppErrorCode } from '../../../../shared/models/app-error-code.model.js';
 import UserDataAccess from './../../security/users/data/user.data.js';
+import userModel from '../../security/users/model/user.model.js';
 
 /**
  * The post data-access service that includes the functionalities to create and read a post .
@@ -16,8 +17,7 @@ export default class postDataAccess {
     const result = new Result();
     try {
       const user = (await UserDataAccess.findById(userId)).data;
-      console.log({ userId });
-      console.log({ user });
+
       if (!user?.isActive) {
         result.validationErrors = [
           {
@@ -30,12 +30,20 @@ export default class postDataAccess {
         return result;
       }
 
+      /**
+       * Create post.
+       * update and push new post to user posts.
+       */
+
       const post = await postModel.create({
         username: user.username,
         content: data.content,
+        // $push: {
+        //   posts: { postId: post._id, post: post.content, createdAt: post.createdAt },
+        // },
         userId,
       });
-      console.log({ post });
+
       result.data = (await this.findById(post._id)).data;
     } catch (error) {
       result.error = error;
@@ -51,8 +59,73 @@ export default class postDataAccess {
     const result = new Result();
 
     try {
-      result.data = await postModel.findById(postId).populate('userId');
+      result.data = await postModel.findById(postId).populate('userId', '-password -email').sort({ createdAt: -1 });
       result.isNotFound = !result.data;
+    } catch (error) {
+      result.error = error;
+    }
+    return result;
+  }
+
+  /**
+   * Find all posts.
+   * @param userId logged in user id.
+   */
+  static async getAllPosts(userId) {
+    const result = new Result();
+
+    try {
+      /**
+       * Gets logged in user.
+       */
+      const user = (await UserDataAccess.findById(userId)).data;
+      if (!user?.isActive) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.Forbidden,
+            source: 'user',
+            title: AppError.Forbidden,
+            detail: `User is blocked`,
+          },
+        ];
+        return result;
+      }
+
+      result.data = await postModel.find().populate('userId', '-password -email').sort({ createdAt: -1 });
+    } catch (error) {
+      result.error = error;
+    }
+    return result;
+  }
+
+  /**
+   * Find all user posts.
+   * @param userId logged in user id.
+   */
+  static async getAllUserPosts(userId) {
+    const result = new Result();
+
+    try {
+      /**
+       * Gets logged in user.
+       */
+      const user = (await UserDataAccess.findById(userId)).data;
+      if (!user?.isActive) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.Forbidden,
+            source: 'user',
+            title: AppError.Forbidden,
+            detail: `User is blocked`,
+          },
+        ];
+        return result;
+      }
+
+      result.data = await postModel
+        .find({ userId: userId })
+        .populate('userId', '-password -email')
+        .sort({ createdAt: -1 });
     } catch (error) {
       result.error = error;
     }
