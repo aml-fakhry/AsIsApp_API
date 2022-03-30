@@ -1,3 +1,5 @@
+import { Socket } from 'socket.io';
+
 import { JWT } from '../util/jwt.util.js';
 import { unAuthenticated } from '../util/http-responses.util.js';
 import { InternalServerError } from '../util/http-responses.util.js';
@@ -11,7 +13,8 @@ import userRoleModel from '../../src/data/security/users/model/user-role.model.j
  */
 export async function Authenticate(req, res, next) {
   try {
-    const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
+    const authorization = req.headers.authorization || Socket.handshake.headers.authorization;
+    const jwtData = await JWT.verifyAndDecode(authorization ?? '');
 
     if (jwtData) {
       req.user = {
@@ -35,11 +38,13 @@ export async function Authenticate(req, res, next) {
 export function Authorize(...roles) {
   return async (req, res, next) => {
     try {
+      const authorization = req.headers.authorization || Socket.handshake.headers.authorization;
+
       /**
        * Gets the unsigned json web token from the request's authorization header.
        * Gets user from request authorization header.
        */
-      const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
+      const jwtData = await JWT.verifyAndDecode(authorization ?? '');
       const role = await userRoleModel.findById(jwtData.roleId);
 
       /* Check validity & expiration. */

@@ -101,7 +101,7 @@ export function startServer(app) {
    */
   WebSocket.setSocket(socketIOServer);
   httpServer.listen(config.PORT, () => {
-    console.log(`Server is running at port ${config.PORT}`);
+    console.log(`Server and socket are running at port ${config.PORT}`);
   });
 }
 

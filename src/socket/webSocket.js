@@ -3,7 +3,7 @@ export class WebSocket {
     io.on('connection', (socket) => {
       /* listen to event which send from clint. */
       console.log('user connected');
-      console.log(socket.handshake.headers);
+      console.log(socket.handshake.headers.authorization);
 
       /* listen to event which send from clint. */
       socket.on('reload', () => {

@@ -34,7 +34,6 @@ export default class postDataAccess {
        * Create post.
        * update and push new post to user posts.
        */
-
       const post = await postModel.create({
         username: user.username,
         content: data.content,
@@ -126,6 +125,73 @@ export default class postDataAccess {
         .find({ userId: userId })
         .populate('userId', '-password -email')
         .sort({ createdAt: -1 });
+    } catch (error) {
+      result.error = error;
+    }
+    return result;
+  }
+
+  /**
+   * Add like to posts functionality.
+   *  @param postId the post id.
+   *  @param userId logged in user id.
+   */
+
+  static async addLike(postId, userId) {
+    const result = new Result();
+    try {
+      /**
+       * Get logged in user data.
+       */
+      const user = (await UserDataAccess.findById(userId)).data;
+
+      if (!user?.isActive) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.Forbidden,
+            source: 'user',
+            title: AppError.Forbidden,
+            detail: `User is blocked`,
+          },
+        ];
+        return result;
+      }
+
+      //#region validation
+
+      /**
+       * Get  liked post.
+       */
+      const post = (await this.findById(postId)).data;
+
+      if (!post._id) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.IncorrectValue,
+            source: 'post',
+            title: AppError.IncorrectValue,
+            detail: `post not found.`,
+          },
+        ];
+        return result;
+      }
+
+      //#endregion
+
+      /**
+       * Update total likes in posts.
+       */
+      const updatedPost = await postModel.findOneAndUpdate(
+        { _id: postId },
+        {
+          totalLikes: post.totalLikes + 1,
+        },
+        { new: true }
+      );
+
+      console.log(updatedPost);
+
+      result.data = updatedPost;
     } catch (error) {
       result.error = error;
     }
