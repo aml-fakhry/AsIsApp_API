@@ -83,36 +83,26 @@ export function setupServer(app) {
 }
 
 /**
- * Starts an socket server.
+ * Starts an express server.
  * @param app The express application to start its express server.
  */
-
-function startSocketServer(app) {
+export function startServer(app) {
   const httpServer = createServer(app);
   const socketIOServer = new Server(httpServer, {
     cors: {
       origin: 'http://localhost:4200',
       methods: ['GET', 'POST'],
+      transport: [],
     },
   });
 
+  /**
+   * Setup socket server.
+   */
   WebSocket.setSocket(socketIOServer);
-  httpServer.listen(config.WS_PORT, () => {
-    console.log(`Socket server is running at port ${config.WS_PORT}`);
-  });
-}
-
-/**
- * Starts an express server.
- * @param app The express application to start its express server.
- */
-export function startServer(app) {
-  app.listen(config.PORT, () => {
+  httpServer.listen(config.PORT, () => {
     console.log(`Server is running at port ${config.PORT}`);
   });
-
-  /* Start socket server. */
-  startSocketServer(app);
 }
 
 /**
