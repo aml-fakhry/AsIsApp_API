@@ -72,6 +72,22 @@ postRouter.get('/user-posts', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITO
 });
 
 /* Get post by id route. */
+postRouter.get('/like/:postId', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
+  try {
+    const result = await postDataAccess.addLike(req.params.postId, req.user.userId);
+    if (Object.keys(result.error).length) {
+      next(result.error);
+    } else if (result.isNotFound) {
+      return unAuthenticated(res);
+    } else if (result.data) {
+      OK(res, result);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+/* Get post by id route. */
 postRouter.get('/:id', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDITOR), async (req, res, next) => {
   try {
     const result = await postDataAccess.findById(req.params.id);
