@@ -1,10 +1,8 @@
-import { Socket } from 'socket.io';
-
 import { JWT } from '../util/jwt.util.js';
-import { unAuthenticated } from '../util/http-responses.util.js';
-import { InternalServerError } from '../util/http-responses.util.js';
+import { InternalServerError, unAuthenticated } from '../util/http-responses.util.js';
 import { Forbidden } from '../util/http-responses.util.js';
 import userRoleModel from '../../src/data/security/users/model/user-role.model.js';
+
 /**
  * Authenticates the coming request by validating the jwt against validity and expiration.
  * @param req The express request.
@@ -13,8 +11,7 @@ import userRoleModel from '../../src/data/security/users/model/user-role.model.j
  */
 export async function Authenticate(req, res, next) {
   try {
-    const authorization = req.headers.authorization || Socket.handshake.headers.authorization;
-    const jwtData = await JWT.verifyAndDecode(authorization ?? '');
+    const jwtData = await JWT.verifyAndDecode(req.headers.authorization ?? '');
 
     if (jwtData) {
       req.user = {
@@ -34,7 +31,6 @@ export async function Authenticate(req, res, next) {
  * Authorizes the coming request by validating the jwt against validity and expiration in addition to authorize user role.
  * @param roles The list of user roles that the user should has one of them.
  */
-
 export function Authorize(...roles) {
   return async (req, res, next) => {
     try {
@@ -69,4 +65,17 @@ export function Authorize(...roles) {
       InternalServerError(res, error);
     }
   };
+}
+
+/*
+ * Authenticates web socket the coming request by validating the jwt against validity and expiration.
+ * @param socket The socket server.
+ */
+export async function AuthenticateWebSocket(socket) {
+  try {
+    const jwtData = await JWT.verifyAndDecode(socket.handshake.headers.authorization ?? '');
+    return jwtData ? true : false;
+  } catch (error) {
+    return false;
+  }
 }
