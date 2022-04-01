@@ -174,6 +174,16 @@ export default class postDataAccess {
           },
         ];
         return result;
+      } else if (post.likes.find((like) => like.userId == userId)) {
+        result.validationErrors = [
+          {
+            code: AppErrorCode.ValueExists,
+            source: 'post.*.likes',
+            title: AppError.ValueExists,
+            detail: `user already liked this post before.`,
+          },
+        ];
+        return result;
       }
 
       //#endregion
@@ -182,14 +192,21 @@ export default class postDataAccess {
        * Update total likes in posts.
        */
       const updatedPost = await postModel.findOneAndUpdate(
-        { _id: postId },
         {
-          totalLikes: post.totalLikes + 1,
+          _id: postId,
+          // 'likes.username': { $ne: post.likes.username },
         },
+        {
+          $inc: { totalLikes: 1 },
+          $push: {
+            likes: { username: user.username, userId: userId },
+          },
+        },
+
         { new: true }
       );
 
-      console.log(updatedPost);
+      console.log({ updatedPost });
 
       result.data = updatedPost;
     } catch (error) {

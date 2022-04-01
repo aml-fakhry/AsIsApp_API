@@ -77,6 +77,8 @@ postRouter.get('/like/:postId', Authorize(UserRoles.SYSTEM_ADMIN, UserRoles.AUDI
     const result = await postDataAccess.addLike(req.params.postId, req.user.userId);
     if (Object.keys(result.error).length) {
       next(result.error);
+    } else if (result.validationErrors && result.validationErrors.length) {
+      BadRequest(res, { errors: result.validationErrors });
     } else if (result.isNotFound) {
       return unAuthenticated(res);
     } else if (result.data) {
